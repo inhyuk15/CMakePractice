@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package chat;
+
+enum DataType {
+  TEXT = 0;
+  IMAGE = 1;
+  SYSTEM = 2;
+}
+
+enum SystemCode {
+  NONE = 0; // good
+  TIMEOUT = 1;
+
+}
+
+message ChatMessage {
+  string user_name = 1;
+  uint32 timestamp = 2;
+  DataType data_type = 3;
+  
+  oneof content {
+    string message_text = 4;
+    bytes image_data = 5;
+  }
+
+  SystemCode system_code = 6;
+  string file_extension = 7;
+}
