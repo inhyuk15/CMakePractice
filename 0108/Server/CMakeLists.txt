@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 20)
 find_package(Boost 1.82.0 REQUIRED COMPONENTS system)
 find_package(Protobuf REQUIRED)
 
+
 file(GLOB SOURCE
     "${CMAKE_CURRENT_SOURCE_DIR}/ChatServer/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/ChatServer/*.cc"
@@ -16,7 +17,10 @@ file(GLOB SOURCE
 )
 
 
-add_executable(MyServer ${SOURCE})
+# add_executable(MyServer ${SOURCE})
+
+protobuf_generate_cpp(PROTO_SRC PROTO_HDRS chat.proto)
+add_executable(MyServer ${SOURCE} ${PROTO_SRC} ${PROTO_HDRS})
 
 target_include_directories(MyServer PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/ChatServer
@@ -25,7 +29,7 @@ target_include_directories(MyServer PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/ChatServer/Communicator
 )
 
-
+target_include_directories(MyServer PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 # include_directories(${Boost_INCLUDE_DIR})
 # link_libraries(${Boost_LIBRARIES})
